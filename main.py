@@ -1236,16 +1236,18 @@ class NewsAnalyzer:
         ids = [
             #("toutiao", "今日头条"),
             ("wallstreetcn-hot", "华尔街见闻"),
-            ("thepaper", "澎湃新闻"),
-            ("bilibili-hot-search", "bilibili 热搜"),
+            #("thepaper", "澎湃新闻"),
+            #("bilibili-hot-search", "bilibili 热搜"),
             "tieba",
             "weibo",
             "douyin",
             "zhihu",
             "nowcoder",
+            "hackernews",
+            "github",
+            "thepaper",
             "juejin",
             "linuxdo",
-
         ]
 
         print(f"开始爬取数据，请求间隔设置为 {self.request_interval} 毫秒")
