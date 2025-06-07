@@ -1234,17 +1234,18 @@ class NewsAnalyzer:
 
         # 要爬取的网站ID列表
         ids = [
-            ("toutiao", "今日头条"),
-            ("baidu", "百度热搜"),
+            #("toutiao", "今日头条"),
             ("wallstreetcn-hot", "华尔街见闻"),
             ("thepaper", "澎湃新闻"),
             ("bilibili-hot-search", "bilibili 热搜"),
-            ("cls-hot", "财联社热门"),
-            ("ifeng", "凤凰网"),
             "tieba",
             "weibo",
             "douyin",
             "zhihu",
+            "nowcoder",
+            "juejin",
+            "linuxdo",
+
         ]
 
         print(f"开始爬取数据，请求间隔设置为 {self.request_interval} 毫秒")
