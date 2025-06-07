@@ -1239,7 +1239,7 @@ class NewsAnalyzer:
             #("thepaper", "澎湃新闻"),
             #("bilibili-hot-search", "bilibili 热搜"),
             "tieba",
-            "weibo",
+            # "weibo",
             "douyin",
             "zhihu",
             "nowcoder",
