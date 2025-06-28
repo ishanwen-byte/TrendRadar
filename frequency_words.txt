@@ -1,14 +1,125 @@
 人工智能
+AI
+Artificial Intelligence
+机器学习
+Machine Learning
+深度学习
+Deep Learning
+神经网络
+Neural Network
+计算机视觉
+Computer Vision
+自然语言处理
+NLP
+Natural Language Processing
 生成式AI
-AGI
-通用人工智能
+Generative AI
 大语言模型
 LLM
-机器学习
-深度学习
-神经网络
-计算机视觉
-自然语言处理
+Large Language Model
+
+网络安全
+Cybersecurity
+信息安全
+Information Security
+网络攻防
+Cyber Attack & Defense
+漏洞利用
+Exploit
+渗透测试
+Penetration Testing
+零信任
+Zero Trust
+数据加密
+Data Encryption
+防火墙
+Firewall
+入侵检测
+IDS
+Intrusion Detection System
+入侵防御
+IPS
+Intrusion Prevention System
+威胁情报
+Threat Intelligence
+恶意软件
+Malware
+勒索软件
+Ransomware
+APT
+高级持续性威胁
+Advanced Persistent Threat
+SOC
+安全运营中心
+Security Operations Center
+SIEM
+安全信息与事件管理
+Security Information and Event Management
+身份认证
+Authentication
+多因素认证
+MFA
+Multi-Factor Authentication
+区块链安全
+Blockchain Security
+云安全
+Cloud Security
+物联网安全
+IoT Security
+工控安全
+ICS Security
+Industrial Control System Security
+数据隐私
+Data Privacy
+GDPR
+通用数据保护条例
+General Data Protection Regulation
+安全合规
+Security Compliance
+红队
+Red Team
+蓝队
+Blue Team
+紫队
+Purple Team
+安全开发
+Secure Development
+DevSecOps
+安全运维
+Security Operations
+漏洞扫描
+Vulnerability Scanning
+安全评估
+Security Assessment
+风险评估
+Risk Assessment
+应急响应
+Incident Response
+数字取证
+Digital Forensics
+逆向工程
+Reverse Engineering
+密码学
+Cryptography
+对称加密
+Symmetric Encryption
+非对称加密
+Asymmetric Encryption
+哈希算法
+Hash Algorithm
+数字签名
+Digital Signature
+SSL/TLS
+安全套接层/传输层安全
+Secure Sockets Layer/Transport Layer Security
+VPN
+虚拟专用网络
+Virtual Private Network
+安全编码
+Secure Coding
+OWASP
+开放Web应用安全项目
+Open Web Application Security Project
 OpenAI
 ChatGPT
 GPT-4
@@ -162,9 +273,9 @@ CBDC
 
 
 中国改革
-高质量发展
+高质量
 共同富裕
-乡村振兴
+振兴乡村
 新型城镇化
 双碳目标
 创新驱动
@@ -188,12 +299,4 @@ SDGs
 
 社会思潮
 可持续发展
-绿色发展
-循环经济
-共享经济
-零工经济
-远程办公
-数字化转型
-社会责任
-ESG投资
-包容性增长
+了大量
