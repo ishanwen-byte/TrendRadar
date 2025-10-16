@@ -205,7 +205,7 @@ class DataFetcher:
                             results[id_value][title] = {
                                 "ranks": [index],
                                 "url": url,
-                                "mobileUrl": mobile_url
+                                "mobile_url": mobile_url
                             }
                 except json.JSONDecodeError:
                     print(f"解析 {id_value} 的响应失败，不是有效的JSON")
@@ -251,7 +251,7 @@ class DataProcessor:
                     if isinstance(info, dict):
                         ranks = info.get("ranks", [])
                         url = info.get("url", "")
-                        mobile_url = info.get("mobileUrl", "")
+                        mobile_url = info.get("mobile_url", "")
                         rank_str = ",".join(map(str, ranks))
                         # 格式：序号. 标题 (排名:1,2,3) [URL:url] [MOBILE:mobile_url]
                         line = f"{i}. {title} (排名:{rank_str})"
@@ -280,10 +280,10 @@ class DataProcessor:
         frequency_file: str = "frequency_words.txt",
     ) -> Tuple[List[List[str]], List[str]]:
         """
-        加载频率词和过滤词，处理关联词
+        加载频率词和过滤词，支持[概括性标题]格式
 
         Returns:
-            (word_groups, filter_words)元组
+            (word_groups, filter_words)元组，其中word_groups现在包含[(domain_name, keywords_list)]
         """
         if not os.path.exists(frequency_file):
             print(f"频率词文件 {frequency_file} 不存在")
@@ -292,22 +292,37 @@ class DataProcessor:
         with open(frequency_file, "r", encoding="utf-8") as f:
             content = f.read()
 
-        # 按双空行分割不同的词组
-        word_groups = [
-            group.strip() for group in content.split("\n\n") if group.strip()
+        # 按空行分割不同的词组
+        sections = [
+            section.strip() for section in content.split("\n\n") if section.strip()
         ]
 
-        # 处理每个词组
         processed_groups = []
         filter_words = []  # 用于存储过滤词
 
-        for group in word_groups:
-            words = [word.strip() for word in group.split("\n") if word.strip()]
+        for section in sections:
+            lines = [line.strip() for line in section.split("\n") if line.strip()]
 
-            # 分离频率词和过滤词
+            if not lines:
+                continue
+
+            # 检查第一行是否是标题格式 [标题]
+            domain_name = None
+            keywords = []
+
+            if lines[0].startswith("[") and lines[0].endswith("]"):
+                # 新格式：[标题]
+                domain_name = lines[0][1:-1]  # 去掉方括号
+                keywords = lines[1:]  # 其余行是关键词
+            else:
+                # 兼容旧格式：没有标题，使用第一个词作为标题
+                domain_name = lines[0] if len(lines[0]) <= 8 else "科技"
+                keywords = lines
+
+            # 处理关键词，分离频率词和过滤词
             group_frequency_words = []
 
-            for word in words:
+            for word in keywords:
                 if word.startswith("!"):
                     # 去掉感叹号，添加到过滤词列表
                     filter_words.append(word[1:])
@@ -316,8 +331,8 @@ class DataProcessor:
                     group_frequency_words.append(word)
 
             # 只有当词组中包含频率词时才添加到结果中
-            if group_frequency_words:
-                processed_groups.append(group_frequency_words)
+            if group_frequency_words and domain_name:
+                processed_groups.append((domain_name, group_frequency_words))
 
         return processed_groups, filter_words
 
@@ -418,7 +433,7 @@ class DataProcessor:
                                 title_data[title] = {
                                     "ranks": ranks,
                                     "url": url,
-                                    "mobileUrl": mobile_url
+                                    "mobile_url": mobile_url
                                 }
 
                             except Exception as e:
@@ -470,7 +485,7 @@ class DataProcessor:
                 if isinstance(data, dict):
                     ranks = data.get("ranks", [])
                     url = data.get("url", "")
-                    mobile_url = data.get("mobileUrl", "")
+                    mobile_url = data.get("mobile_url", "")
                 else:
                     # 旧格式兼容
                     ranks = data if isinstance(data, list) else []
@@ -483,7 +498,7 @@ class DataProcessor:
                     "count": 1,
                     "ranks": ranks,
                     "url": url,
-                    "mobileUrl": mobile_url,
+                    "mobile_url": mobile_url,
                 }
 
             # 尝试反向生成ID
@@ -496,7 +511,7 @@ class DataProcessor:
                 if isinstance(data, dict):
                     ranks = data.get("ranks", [])
                     url = data.get("url", "")
-                    mobile_url = data.get("mobileUrl", "")
+                    mobile_url = data.get("mobile_url", "")
                 else:
                     # 旧格式兼容
                     ranks = data if isinstance(data, list) else []
@@ -507,7 +522,7 @@ class DataProcessor:
                     all_results[source_name][title] = {
                         "ranks": ranks,
                         "url": url,
-                        "mobileUrl": mobile_url
+                        "mobile_url": mobile_url
                     }
                     title_info[source_name][title] = {
                         "first_time": time_info,  # 新标题的首次和最后时间都设为当前
@@ -515,14 +530,14 @@ class DataProcessor:
                         "count": 1,
                         "ranks": ranks,
                         "url": url,
-                        "mobileUrl": mobile_url,
+                        "mobile_url": mobile_url,
                     }
                 else:
                     # 已存在的标题，更新最后时间，合并排名信息并增加计数
                     existing_data = all_results[source_name][title]
                     existing_ranks = existing_data.get("ranks", [])
                     existing_url = existing_data.get("url", "")
-                    existing_mobile_url = existing_data.get("mobileUrl", "")
+                    existing_mobile_url = existing_data.get("mobile_url", "")
                 
                     merged_ranks = existing_ranks.copy()
                     for rank in ranks:
@@ -533,7 +548,7 @@ class DataProcessor:
                     all_results[source_name][title] = {
                         "ranks": merged_ranks,
                         "url": existing_url or url,
-                        "mobileUrl": existing_mobile_url or mobile_url
+                        "mobile_url": existing_mobile_url or mobile_url
                     }
 
                     title_info[source_name][title]["last_time"] = time_info  # 更新最后时间
@@ -542,8 +557,8 @@ class DataProcessor:
                     # 保持第一个有效的URL
                     if not title_info[source_name][title].get("url"):
                         title_info[source_name][title]["url"] = url
-                    if not title_info[source_name][title].get("mobileUrl"):
-                        title_info[source_name][title]["mobileUrl"] = mobile_url
+                    if not title_info[source_name][title].get("mobile_url"):
+                        title_info[source_name][title]["mobile_url"] = mobile_url
 
 
 class StatisticsCalculator:
@@ -574,9 +589,9 @@ class StatisticsCalculator:
             title_info = {}
 
         # 为每个词组创建统计对象
-        for group in word_groups:
-            group_key = " ".join(group)
-            word_stats[group_key] = {"count": 0, "titles": {}}
+        for domain_name, keywords in word_groups:
+            # 使用领域名称作为键，关键词列表用于匹配
+            word_stats[domain_name] = {"count": 0, "titles": {}, "keywords": keywords}
 
         # 遍历所有标题并统计
         for source_id, titles_data in results.items():
@@ -606,25 +621,23 @@ class StatisticsCalculator:
                 if isinstance(title_data, dict):
                     source_ranks = title_data.get("ranks", [])
                     source_url = title_data.get("url", "")
-                    source_mobile_url = title_data.get("mobileUrl", "")
+                    source_mobile_url = title_data.get("mobile_url", "")
                 else:
                     # 旧格式兼容
                     source_ranks = title_data if isinstance(title_data, list) else []
                     source_url = ""
                     source_mobile_url = ""
 
-                # 按顺序检查每个词组
-                for group in word_groups:
-                    group_key = " ".join(group)
-
-                    # 检查是否有任何一个词在标题中
-                    matched = any(word.lower() in title_lower for word in group)
+                # 按顺序检查每个领域组
+                for domain_name, keywords in word_groups:
+                    # 检查是否有任何一个关键词在标题中
+                    matched = any(word.lower() in title_lower for word in keywords)
 
                     # 如果匹配，增加计数并添加标题，然后标记为已处理
                     if matched:
-                        word_stats[group_key]["count"] += 1
-                        if source_id not in word_stats[group_key]["titles"]:
-                            word_stats[group_key]["titles"][source_id] = []
+                        word_stats[domain_name]["count"] += 1
+                        if source_id not in word_stats[domain_name]["titles"]:
+                            word_stats[domain_name]["titles"][source_id] = []
 
                         # 获取标题信息
                         first_time = ""
@@ -646,7 +659,7 @@ class StatisticsCalculator:
                             if "ranks" in info and info["ranks"]:
                                 ranks = info["ranks"]
                             url = info.get("url", source_url)
-                            mobile_url = info.get("mobileUrl", source_mobile_url)
+                            mobile_url = info.get("mobile_url", source_mobile_url)
 
                         # 确保排名是有效的
                         if not ranks:
@@ -659,7 +672,7 @@ class StatisticsCalculator:
 
                         # 添加带完整信息的标题数据，保存原始数据用于后续格式化
                         source_alias = id_to_alias.get(source_id, source_id)
-                        word_stats[group_key]["titles"][source_id].append(
+                        word_stats[domain_name]["titles"][source_id].append(
                             {
                                 "title": title,
                                 "source_alias": source_alias,
@@ -670,7 +683,7 @@ class StatisticsCalculator:
                                 "ranks": ranks,
                                 "rank_threshold": rank_threshold,
                                 "url": url,  # 新增url字段
-                                "mobileUrl": mobile_url,  # 新增mobileUrl字段
+                                "mobile_url": mobile_url,  # 修复：使用mobile_url而不是mobileUrl
                             }
                         )
 
@@ -682,14 +695,14 @@ class StatisticsCalculator:
 
         # 转换统计结果 - 这里不再进行格式化，保留原始数据
         stats = []
-        for group_key, data in word_stats.items():
+        for domain_name, data in word_stats.items():
             all_titles = []
             for source_id, title_list in data["titles"].items():
                 all_titles.extend(title_list)
 
             stats.append(
                 {
-                    "word": group_key,
+                    "word": domain_name,  # 使用领域名称而不是关键词列表
                     "count": data["count"],
                     "titles": all_titles,  # 保存原始标题数据，用于后续格式化
                     "percentage": (
@@ -767,6 +780,21 @@ class StatisticsCalculator:
         else:
             # 有两个时间点，显示范围
             return f"[{first_time} ~ {last_time}]"
+
+
+def clean_title(title: str) -> str:
+    """
+    清理标题，移除多余的空白字符和特殊字符
+    参考cankao.py的clean_title函数
+    """
+    # 移除首尾空白字符
+    title = title.strip()
+
+    # 替换多个连续空白字符为单个空格
+    import re
+    title = re.sub(r'\s+', ' ', title)
+
+    return title
 
 
 class ReportGenerator:
@@ -909,18 +937,19 @@ class ReportGenerator:
                 ranks = title_data["ranks"]
                 rank_threshold = title_data["rank_threshold"]
                 url = title_data.get("url", "")
-                mobile_url = title_data.get("mobileUrl", "")
+                mobile_url = title_data.get("mobile_url", "")
 
                 # 使用HTML格式化排名
                 rank_display = StatisticsCalculator._format_rank_for_html(
                     ranks, rank_threshold
                 )
 
-                # 优先使用mobileUrl，然后是url，最后无链接
+                # 优先使用mobile_url，然后是url，最后无链接
                 link_url = mobile_url or url
             
-                # 格式化标题信息，添加链接支持
-                escaped_title = ReportGenerator._html_escape(title)
+                # 清理并转义标题
+                cleaned_title = clean_title(title)
+                escaped_title = ReportGenerator._html_escape(cleaned_title)
                 escaped_source_alias = ReportGenerator._html_escape(source_alias)
             
                 if link_url:
@@ -1033,7 +1062,7 @@ class ReportGenerator:
     def _build_feishu_content(
         stats: List[Dict], failed_ids: Optional[List] = None
     ) -> str:
-        """构建飞书消息内容，使用富文本格式和markdown链接，优先使用mobileUrl"""
+        """构建飞书消息内容，使用富文本格式和markdown链接，优先使用mobile_url"""
         text_content = ""
 
         # 添加频率词统计信息
@@ -1041,13 +1070,13 @@ class ReportGenerator:
 
         # 如果有统计数据，添加标题
         if filtered_stats:
-            text_content += "📊 **热点词汇统计**\n\n"
+            text_content += "📈 **科技热点日报**\n\n"
 
         # 获取总数用于序号显示
         total_count = len(filtered_stats)
 
         for i, stat in enumerate(filtered_stats):
-            word = stat["word"]
+            domain_name = stat["word"]  # 现在word已经是领域名称
             count = stat["count"]
 
             # 构建序号显示，格式为 [当前序号/总数]，使用灰色且不加粗
@@ -1056,13 +1085,13 @@ class ReportGenerator:
             # 关键词加粗，计数和百分比使用不同颜色，序号单独显示为灰色
             if count >= 10:
                 # 高频词使用红色
-                text_content += f"🔥 {sequence_display} **{word}** : <font color='red'>{count}</font> 条\n\n"
+                text_content += f"🔥 {sequence_display} **{domain_name}** : <font color='red'>{count}</font> 条\n\n"
             elif count >= 5:
                 # 中频词使用橙色
-                text_content += f"📈 {sequence_display} **{word}** : <font color='orange'>{count}</font> 条\n\n"
+                text_content += f"📈 {sequence_display} **{domain_name}** : <font color='orange'>{count}</font> 条\n\n"
             else:
                 # 低频词使用默认颜色
-                text_content += f"📌 {sequence_display} **{word}** : {count} 条\n\n"
+                text_content += f"📌 {sequence_display} **{domain_name}** : {count} 条\n\n"
 
             # 格式化标题列表用于飞书显示
             for j, title_data in enumerate(stat["titles"], 1):
@@ -1073,21 +1102,22 @@ class ReportGenerator:
                 ranks = title_data["ranks"]
                 rank_threshold = title_data["rank_threshold"]
                 url = title_data.get("url", "")
-                mobile_url = title_data.get("mobileUrl", "")
+                mobile_url = title_data.get("mobile_url", "")
 
                 # 使用飞书格式化排名
                 rank_display = StatisticsCalculator._format_rank_for_feishu(
                     ranks, rank_threshold
                 )
 
-                # 格式化标题信息，优先使用mobileUrl，然后是url
-                link_url = mobile_url or url  # 优先使用mobileUrl，没有则使用url
+                # 格式化标题信息，优先使用mobile_url，然后是url
+                cleaned_title = clean_title(title)  # 清理标题
+                link_url = mobile_url or url  # 优先使用mobile_url，没有则使用url
                 if link_url:
                     # 如果有链接，使用markdown链接格式
-                    formatted_title = f"[{title}]({link_url})"
+                    formatted_title = f"[{cleaned_title}]({link_url})"
                 else:
                     # 如果都没有链接，只显示标题
-                    formatted_title = title
+                    formatted_title = cleaned_title
 
                 # 构建完整的标题行
                 text_content += f"  {j}. <font color='grey'>[{source_alias}]</font> {formatted_title}"
@@ -1276,7 +1306,7 @@ class NewsAnalyzer:
                 if isinstance(title_data, dict):
                     ranks = title_data.get("ranks", [])
                     url = title_data.get("url", "")
-                    mobile_url = title_data.get("mobileUrl", "")
+                    mobile_url = title_data.get("mobile_url", "")
                 else:
                     # 兼容旧格式数据
                     ranks = title_data if isinstance(title_data, list) else []
@@ -1289,7 +1319,7 @@ class NewsAnalyzer:
                     "count": 1,
                     "ranks": ranks,
                     "url": url,
-                    "mobileUrl": mobile_url,
+                    "mobile_url": mobile_url,
                 }
 
         # 加载频率词和过滤词
