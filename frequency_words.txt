@@ -23,6 +23,45 @@ ChatGPT
 GPT-4
 Claude
 Gemini
+Transformer
+注意力机制
+Attention Mechanism
+多模态
+Multimodal
+人工智能体
+AI Agent
+检索增强生成
+RAG
+强化学习
+Reinforcement Learning
+人类反馈强化学习
+RLHF
+监督微调
+SFT
+模型蒸馏
+Distillation
+扩散模型
+Diffusion Model
+生成对抗网络
+GAN
+联邦学习
+Federated Learning
+提示工程
+Prompt Engineering
+微调
+Fine-tuning
+量化
+Quantization
+结构化输出
+Structured Outputs
+语音识别
+ASR
+Automatic Speech Recognition
+语音合成
+TTS
+Text-to-Speech
+多轮对话
+Conversational AI
 
 [网络安全]
 网络安全
@@ -127,6 +166,38 @@ Secure Coding
 OWASP
 开放Web应用安全项目
 Open Web Application Security Project
+EDR
+Endpoint Detection and Response
+XDR
+Extended Detection and Response
+NDR
+Network Detection and Response
+SOAR
+Security Orchestration, Automation and Response
+WAF
+Web Application Firewall
+SASE
+Secure Access Service Edge
+CASB
+Cloud Access Security Broker
+DLP
+Data Loss Prevention
+IAM
+Identity and Access Management
+PAM
+Privileged Access Management
+蜜罐
+Honeypot
+沙箱
+Sandbox
+零日漏洞
+Zero-Day Vulnerability
+供应链攻击
+Supply Chain Attack
+漏洞管理
+Vulnerability Management
+威胁狩猎
+Threat Hunting
 
 [医疗医药]
 医疗医药
@@ -146,6 +217,22 @@ CRISPR
 罕见病
 器官移植
 再生医学
+CAR-T
+CAR T-cell Therapy
+mRNA疫苗
+mRNA Vaccine
+蛋白质组学
+Proteomics
+单细胞测序
+Single-cell Sequencing
+生物信息学
+Bioinformatics
+体外诊断
+IVD
+医学影像
+Medical Imaging
+精准肿瘤学
+Precision Oncology
 
 [可穿戴设备]
 可穿戴设备
@@ -160,6 +247,16 @@ VR头显
 脑机接口
 神经接口
 意念控制
+心电
+ECG
+血氧
+SpO2
+睡眠监测
+Sleep Tracking
+步态分析
+Gait Analysis
+能量采集
+Energy Harvesting
 
 [光学科技]
 光学科技
@@ -174,6 +271,16 @@ VR头显
 LiDAR
 光学成像
 超分辨率显微镜
+自由曲面光学
+Freeform Optics
+光波导
+Optical Waveguide
+超透镜
+Meta-Optics
+光学仿真
+Optical Simulation
+波前整形
+Wavefront Shaping
 
 [量子科技]
 量子科技
@@ -185,6 +292,16 @@ LiDAR
 量子优越性
 量子算法
 量子纠错
+超导量子比特
+Superconducting Qubits
+离子阱
+Ion Trap
+拓扑量子计算
+Topological Quantum Computing
+量子密钥分发
+QKD
+量子随机数
+QRNG
 
 [新能源]
 新能源
@@ -201,6 +318,20 @@ LiDAR
 清洁能源
 碳中和
 碳达峰
+光伏
+Photovoltaics
+钠离子电池
+Sodium-ion Battery
+钙钛矿电池
+Perovskite Solar Cell
+储能系统
+BESS
+虚拟电厂
+VPP
+电网侧储能
+Grid-scale Storage
+氨燃料
+Ammonia Fuel
 
 [自动驾驶]
 自动驾驶
@@ -212,6 +343,18 @@ LiDAR
 自动驾驶芯片
 车联网
 智能交通
+ADAS
+高级驾驶辅助系统
+高精地图
+HD Map
+V2X
+车路协同
+端到端自动驾驶
+End-to-End Autonomy
+BEV感知
+Bird's Eye View Perception
+自动泊车
+Automated Parking
 
 [机器人]
 机器人
@@ -223,6 +366,16 @@ LiDAR
 波士顿动力
 宇树科技
 智能制造
+通用人形机器人
+General-Purpose Humanoid
+抓取与操作
+Grasping and Manipulation
+SLAM
+同时定位与建图
+移动机器人
+Mobile Robotics
+软体机器人
+Soft Robotics
 
 [芯片半导体]
 芯片半导体
@@ -237,6 +390,20 @@ EUV光刻
 处理器
 GPU
 AI芯片
+EDA
+Electronic Design Automation
+RISC-V
+RISC-V
+先进封装
+Advanced Packaging
+Chiplet
+Chiplet
+HBM
+High Bandwidth Memory
+晶圆代工
+Foundry
+CoWoS
+CoWoS
 
 [太空科技]
 太空科技
@@ -248,6 +415,18 @@ SpaceX
 火星探测
 月球基地
 卫星互联网
+可重复使用运载器
+Reusable Launch Vehicle
+液体推进
+Liquid Propulsion
+固体推进
+Solid Propulsion
+轨道转移
+Orbital Transfer
+深空探测
+Deep Space Exploration
+行星际导航
+Interplanetary Navigation
 
 [数字金融]
 数字货币
@@ -256,6 +435,22 @@ CBDC
 数字人民币
 区块链治理
 平台经济监管
+区块链
+Blockchain
+智能合约
+Smart Contract
+去中心化金融
+DeFi
+非同质化代币
+NFT
+稳定币
+Stablecoin
+链上治理
+On-chain Governance
+合规科技
+RegTech
+金融科技
+FinTech
 
 [政治制度]
 数字政府
@@ -267,6 +462,16 @@ CBDC
 协商民主
 数字民主
 参与式民主
+数据治理
+Data Governance
+算法治理
+Algorithmic Governance
+隐私计算
+Privacy-Preserving Computation
+数字法治
+Digital Rule of Law
+数字身份
+Digital Identity
 
 [中国发展]
 高质量
@@ -278,6 +483,16 @@ CBDC
 制造强国
 数字中国
 健康中国
+新质生产力
+New Quality Productive Forces
+一带一路
+Belt and Road Initiative
+区域协调发展
+Regional Coordinated Development
+专精特新
+Specialized and New SMEs
+高端制造
+Advanced Manufacturing
 
 [全球治理]
 全球治理
@@ -290,6 +505,31 @@ SDGs
 逆全球化
 地缘政治
 国际秩序
+气候融资
+Climate Finance
+能源转型
+Energy Transition
+全球供应链
+Global Supply Chain
+全球卫生
+Global Health
+生物安全
+Biosafety
+数字主权
+Digital Sovereignty
 
 [社会思潮]
 可持续发展
+
+技术伦理
+Tech Ethics
+数据伦理
+Data Ethics
+人工智能伦理
+AI Ethics
+数字鸿沟
+Digital Divide
+后真相
+Post-truth
+反乌托邦
+Dystopia
